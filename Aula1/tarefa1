@@ -1,0 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    float nota1,nota2,nota3;
+    printf("digite a nota1:");
+    scanf("%f",& nota1);
+    printf("digite a nota2:");
+    scanf("%f",& nota2);
+    printf("digite a nota3:");
+    scanf("%f",& nota3);
+    printf("RESULTADO:%f",(nota1+nota2+nota3)/3);
+    return 0;
+}
