@@ -1,1 +1,10 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+#include<math.h>
+int man{float num1,num2,soma
+printf("digite primeiro numero:";
+scanf(%f,&num1);
+printf("digite segundo numero:};
+scanf(%f,&num2);
+printf("digite terceiro numero:";
+scanf(%f,&num3);}
