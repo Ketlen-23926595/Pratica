@@ -6,7 +6,7 @@
 
 int main()
 {
-    float nota1,nota2,nota3,media;
+    float nota1,nota2,nota3,media,faltas,aulas;
     printf("digite a nota1:");
     scanf("%f",& nota1);
     printf("digite a nota2:");
@@ -20,4 +20,5 @@ if(media>5){
 printf("parabens, voce foi aprovado");}
 else{
 printf("voce foi reprovado");}
-    return 0;
+printf("digite auantidade de faltas:")
+    return 0;}
