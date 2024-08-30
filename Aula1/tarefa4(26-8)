@@ -10,51 +10,30 @@ printf("digite terceiro numero:";
 scanf(%f,&num3);}
 
 OPERAÇÕES 
-#include <stdio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
 
 int main(){
-    float num1, num2,soma,sub, divis,mult;
-    int status;
-    char opcao;
-    refaz:
-    printf("Escolha sua operação:");
-    scanf("%d",&status);
-if (status == 0) {
-    printf ("Digite o primeiro numero: ");
-    scanf("%f",&num1);
-    printf ("Digite o segundo numero: ");
-    scanf("%f",&num2);
-    soma = num1 + num2;
-    printf("O resultado da operacao eh:%f",soma);}
-
-if (status == 1) {
-    printf ("Digite o primeiro numero: ");
-    scanf("%f",&num1);
-    printf ("Digite o segundo numero: ");
-    scanf("%f",&num2);
-    sub = num1 - num2;
-    printf("O resultado da operacao eh:%f",sub);}
+refaz:
+//função da função MOD retorna o resto da divisão
+  //10MOD2
+ float nota1,nota2,nota3,media;
+ char opcao;
+    printf("digite a nota1:");
+    scanf("%f",& nota1);
+    printf("digite a nota2:");
+    scanf("%f",& nota2);
+    printf("digite a nota3:");
+    scanf("%f",& nota3);
+    media=(nota1+nota2+nota3)/3;
+    printf("sua media é:%f",media);
     
-if (status == 2) {
-    printf ("Digite o primeiro numero: ");
-    scanf("%f",&num1);
-    printf ("Digite o segundo numero: ");
-    scanf("%f",&num2);
-    mult = num1 * num2;
-    printf("O resultado da operacao eh:%f",mult);}
-    
-if (status == 3) {
-    printf ("Digite o primeiro numero: ");
-    scanf("%f",&num1);
-    printf ("Digite o segundo numero: ");
-    scanf("%f",&num2);
-    divis = num1 / num2;
-    printf("O resultado da operacao eh:%f",divis);
-    printf(" Deseja calcular novamente?(S/N");
-    scanf("%s",&opcao);}
- 
+if (media>=5){
+  printf("Parabéns, você foi aprovado.Sua média é:%f",media);
+  printf(" Deseja calcular novamente?(S/N");
+  scanf("%s",&opcao);}
+  
 if(opcao=="S"){
-    goto refaz;}
-    
-return 0;
+    goto refaz;
 }
