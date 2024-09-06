@@ -1,0 +1,43 @@
+# include <stdio.h> 
+#include<stdlib.h>
+int man(){
+float trabalho , avaliacao , exame , media ;
+
+printf ( digite a nota do trabalho : " ) ; 
+scanf ( "% f" , & trabalho ) ;
+
+printf ( digite a nota do avaliação : " ) ; 
+scanf ( "% f" , & avaliacao) ; 
+
+printf ( digite a nota do exame : " ) ; 
+scanf ( "% f" , & exame ) ; 
+
+media = ( trabalho * 2 + avaliação * 3 + exame * 5 ) / 10 ; 
+printf ( " media ponderada :" , média ) ; 
+
+if (  media>=8 &&  media <=10){
+printf ( " seu conceito foi A " ) ;
+ }
+
+else if( media  >= 7 & & media <= 7, 99 ) {
+printf ( " seu conceito foi B " ) ; 
+}
+
+else if(  media >= 6 & & media  <= 6, 99 ) {
+printf ( " seu conceito foi c " ) ; 
+}
+
+else if( media  >= 5 & & media  <= 5, 99 ) {
+printf  ( " seu conceito foi D " ) ; 
+}
+
+else if( media   >= O & & media   <= 4, 99 ) {
+printf( " seu conceito foi E" ) ; 
+}
+
+else{
+printf ("erro");
+}
+
+retorn 0;
+}
