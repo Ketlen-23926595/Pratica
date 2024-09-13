@@ -1,13 +1,37 @@
-# include <stdio. h>
 # include <stdlib.h>
 # include <math.h>
 # define pi 3,14
 
 int main() {
 float raio, area;
-printf (digite o raio \n");
-scanf ("%f",&raio);
+printf ("digite o raio \n");
+scanf ("%f",&raio");
 area=pi*pow(raio,2);
 
-printf ( " área total do círculo :%f \n", area);
+printf ("área total do círculo :%f \n",area);
 return 0; }
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+
+int main(){
+float a;
+int b;
+printf("digite o valor inicial");
+scanf("%f",&a);
+printf("digite o segundo valor");
+scanf("%d",&b);
+
+a-=b;
+printf("a=%.2f \n",a);
+a*=4;
+printf("a=%.2f\n,a);
+a/=3;
+printf ("a=%.2f/n,a);
+a+=2;
+printf("a=%.2f/n,a);
+b%=5;
+printf("b=%.2f/n,b);
+
+return 0;}
