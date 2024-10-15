@@ -1,0 +1,245 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+// Login predefinidos
+typedef struct {
+    char username[20];
+    char password[20];
+} Login;
+
+Login funcionarios[] = {{"funcionario", "1234"}, {"cliente", "1234"}};
+
+// Dados de clientes
+typedef struct {
+    char nome[50];
+    char telefone[15];
+} Cliente;
+
+Cliente clientes[100];
+int num_clientes = 0;
+
+// Carros disponíveis e preços
+typedef struct {
+    char modelo[20];
+    double preco;
+} Carro;
+
+Carro carros[] = {
+    {"CarroA", 50000},
+    {"CarroB", 60000},
+    {"CarroC", 70000}
+};
+
+// Funções auxiliares
+void cadastrar_cliente() {
+    Cliente novo_cliente;
+    printf("Nome do cliente: ");
+    scanf("%s", novo_cliente.nome);
+    printf("Telefone do cliente: ");
+    scanf("%s", novo_cliente.telefone);
+
+    clientes[num_clientes] = novo_cliente;
+    num_clientes++;
+
+    FILE *arquivo = fopen("clientes.txt", "a");
+    if (arquivo != NULL) {
+        fprintf(arquivo, "Cliente: %s, Telefone: %s\n", novo_cliente.nome, novo_cliente.telefone);
+        fclose(arquivo);
+    }
+    printf("Cliente cadastrado com sucesso!\n");
+}
+
+void emitir_relatorio() {
+    FILE *arquivo = fopen("vendas.txt", "r");
+    if (arquivo == NULL) {
+        printf("Nenhuma venda registrada ainda.\n");
+        return;
+    }
+
+    char linha[256];
+    printf("\nRelatório de Vendas:\n");
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        printf("%s", linha);
+    }
+    fclose(arquivo);
+}
+
+double calcular_parcelas(double saldo_devedor, double juros, int parcelas) {
+    return saldo_devedor * pow((1 + (juros / 100)), parcelas) / parcelas;
+}
+
+void simular_venda() {
+    char nome_cliente[50], telefone_cliente[15];
+    printf("Nome do cliente: ");
+    scanf("%s", nome_cliente);
+    printf("Telefone do cliente: ");
+    scanf("%s", telefone_cliente);
+
+    // Verifica se o cliente está cadastrado
+    int cliente_encontrado = 0;
+    for (int i = 0; i < num_clientes; i++) {
+        if (strcmp(clientes[i].nome, nome_cliente) == 0) {
+            cliente_encontrado = 1;
+            break;
+        }
+    }
+    if (!cliente_encontrado) {
+        printf("Cliente não cadastrado.\n");
+        return;
+    }
+
+    // Escolha do carro
+    printf("\nModelos de carros disponíveis:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%s: R$ %.2f\n", carros[i].modelo, carros[i].preco);
+    }
+
+    char carro_escolhido[20];
+    printf("Escolha o carro: ");
+    scanf("%s", carro_escolhido);
+
+    double preco_carro = 0;
+    for (int i = 0; i < 3; i++) {
+        if (strcmp(carros[i].modelo, carro_escolhido) == 0) {
+            preco_carro = carros[i].preco;
+            break;
+        }
+    }
+    if (preco_carro == 0) {
+        printf("Modelo de carro inválido!\n");
+        return;
+    }
+
+    // Modalidade de pagamento
+    int opcao_pagamento, parcelas = 1;
+    double entrada = 0, saldo_devedor = preco_carro, juros = 0;
+
+    printf("\nModalidades de pagamento:\n");
+    printf("1. À vista\n");
+    printf("2. Parcelado com entrada\n");
+    printf("3. Parcelado sem entrada\n");
+    scanf("%d", &opcao_pagamento);
+
+    if (opcao_pagamento == 2) {
+        printf("Digite o valor da entrada: ");
+        scanf("%lf", &entrada);
+        saldo_devedor -= entrada;
+    }
+
+    if (opcao_pagamento != 1) {
+        printf("\nEscolha o número de parcelas:\n");
+        printf("1. 12 parcelas\n");
+        printf("2. 24 parcelas\n");
+        printf("3. 36 parcelas\n");
+        scanf("%d", &parcelas);
+        parcelas = parcelas == 1 ? 12 : (parcelas == 2 ? 24 : 36);
+
+        printf("\nTaxa de juros:\n");
+        printf("1. Baixa: 1.5%% ao mês\n");
+        printf("2. Alta: 1.7%% ao mês\n");
+        int taxa_opcao;
+        scanf("%d", &taxa_opcao);
+        juros = (taxa_opcao == 1) ? 1.5 : 1.7;
+    }
+
+    // Cálculo das parcelas e total pago
+    double valor_parcela = calcular_parcelas(saldo_devedor, juros, parcelas);
+    double total_pago = entrada + (valor_parcela * parcelas);
+
+    // Exibe resumo da venda
+    printf("\nResumo da Venda:\n");
+    printf("Cliente: %s\n", nome_cliente);
+    printf("Carro: %s\n", carro_escolhido);
+    printf("Preço do carro: R$ %.2f\n", preco_carro);
+    if (opcao_pagamento != 1) {
+        printf("Entrada: R$ %.2f\n", entrada);
+        printf("Parcelas: %d x R$ %.2f\n", parcelas, valor_parcela);
+    }
+    printf("Total a ser pago: R$ %.2f\n", total_pago);
+
+    // Grava a venda no arquivo
+    FILE *arquivo = fopen("vendas.txt", "a");
+    if (arquivo != NULL) {
+        fprintf(arquivo, "Cliente: %s, Telefone: %s, Carro: %s, Total Pago: R$ %.2f\n", nome_cliente, telefone_cliente, carro_escolhido, total_pago);
+        fclose(arquivo);
+    }
+}
+
+int login() {
+    char username[20], password[20];
+
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Password: ");
+    scanf("%s", password);
+
+    for (int i = 0; i < 2; i++) {
+        if (strcmp(username, funcionarios[i].username) == 0 && strcmp(password, funcionarios[i].password) == 0) {
+            return i;  // Retorna 0 para funcionário, 1 para cliente
+        }
+    }
+    return -1;  // Login inválido
+}
+
+void menu_funcionario() {
+    int opcao;
+    do {
+        printf("\nMenu Funcionário:\n");
+        printf("1. Cadastrar cliente\n");
+        printf("2. Simular venda\n");
+        printf("3. Emitir relatório\n");
+        printf("4. Sair\n");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                cadastrar_cliente();
+                break;
+            case 2:
+                simular_venda();
+                break;
+            case 3:
+                emitir_relatorio();
+                break;
+            case 4:
+                break;
+            default:
+                printf("Opção inválida!\n");
+        }
+    } while (opcao != 4);
+}
+
+void menu_cliente() {
+    int opcao;
+    do {
+        printf("\nMenu Cliente:\n");
+        printf("1. Simular venda\n");
+        printf("2. Sair\n");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                simular_venda();
+                break;
+            case 2:
+                break;
+            default:
+                printf("Opção inválida!\n");
+        }
+    } while (opcao != 2);
+}
+
+int main() {
+    int user = login();
+    if (user == 0) {
+        menu_funcionario();
+    } else if (user == 1) {
+        menu_cliente();
+    } else {
+        printf("Login inválido!\n");
+    }
+
+    return 0;
+}
